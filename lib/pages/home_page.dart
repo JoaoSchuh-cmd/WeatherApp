@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
+import 'package:weatherapp/constants/colors.dart';
 import 'package:weatherapp/constants/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,8 +20,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _wf.currentWeatherByCityName("Marechal Cândido Rondon").then((w) {
-      _weather = w;
+    _wf.currentWeatherByCityName("Toronto").then((w) {
+      setState(() {
+        _weather = w;
+      });
     });
   }
 
@@ -35,7 +38,8 @@ class _HomePageState extends State<HomePage> {
         child: CircularProgressIndicator(),
       );
     }
-    return SizedBox(
+    return Container(
+      color: Colors.blue.shade100,
       width: MediaQuery.sizeOf(context).width,
       height: MediaQuery.sizeOf(context).height,
       child: Column(
@@ -46,6 +50,9 @@ class _HomePageState extends State<HomePage> {
           _locationHeader(),
           SizedBox(height: MediaQuery.sizeOf(context).height * 0.08),
           _dateTimeInfo(),
+          _weatherIcon(),
+          _currentTemp(),
+          _extraInfo()
         ],
       ),
     );
@@ -80,12 +87,109 @@ class _HomePageState extends State<HomePage> {
             Text(
               DateFormat("EEEE").format(now),
               style: const TextStyle(
-                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+              ),
+            ),
+            Text(
+              ", ${DateFormat("dd.MM.y").format(now)}",
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
               ),
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  Widget _weatherIcon() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          height: MediaQuery.sizeOf(context).height * 0.20,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      "http://openweathermap.org/img/wn/${_weather?.weatherIcon}@4x.png"))),
         )
       ],
+    );
+  }
+
+  Widget _currentTemp() {
+    return Text(
+      "${_weather?.temperature?.celsius?.toStringAsFixed(0)}° C",
+      style: const TextStyle(fontSize: 90, fontWeight: FontWeight.w500),
+    );
+  }
+
+  Widget _extraInfo() {
+    return Container(
+      height: MediaQuery.sizeOf(context).height * 0.15,
+      width: MediaQuery.sizeOf(context).width * 0.80,
+      decoration: BoxDecoration(
+        color: Colors.blue.shade200,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Max: ${_weather?.tempMax?.celsius?.toStringAsFixed(0)}° C",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                "Min: ${_weather?.tempMin?.celsius?.toStringAsFixed(0)}° C",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Vento: ${_weather?.windSpeed} m/s",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                "Humidade: ${_weather?.humidity}%",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
