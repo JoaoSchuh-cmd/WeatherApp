@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather/weather.dart';
 import 'package:weatherapp/model/weather.dart';
 import 'package:weatherapp/widgets/current_temp.dart';
 import 'package:weatherapp/widgets/datetime_info.dart';
