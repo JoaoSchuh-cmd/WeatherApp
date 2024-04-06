@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
+import 'package:weatherapp/constants/colors.dart';
 import 'package:weatherapp/model/weather.dart';
 import 'package:weatherapp/service/location_service.dart';
 import 'package:weatherapp/widgets/current_temp.dart';
@@ -8,7 +9,6 @@ import 'package:weatherapp/widgets/extra_info.dart';
 import 'package:weatherapp/widgets/location_header.dart';
 import 'package:weatherapp/widgets/wather_icon.dart';
 import 'package:weatherapp/constants/constants.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class PanelPage extends StatefulWidget {
   const PanelPage({super.key});
@@ -67,26 +67,46 @@ class _PanelPageState extends State<PanelPage> {
   Widget build(BuildContext context) {
     if (WeatherProvider().weather == null) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.black,
+          color: cWhite,
+        ),
       );
     }
-    return Container(
-      color: Colors.blue.shade100,
-      width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const LocationHeader(),
-          SizedBox(height: MediaQuery.sizeOf(context).height * 0.08),
-          const DateTimeInfo(),
-          const WeatherIcon(),
-          const CurrentTemp(),
-          const ExtraInfo(),
-        ],
-      ),
+    return Stack(
+      children: [
+        Container(
+          color: Colors.blue.shade100,
+          width: MediaQuery.sizeOf(context).width,
+          height: MediaQuery.sizeOf(context).height,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const LocationHeader(),
+              SizedBox(height: MediaQuery.sizeOf(context).height * 0.08),
+              const DateTimeInfo(),
+              const WeatherIcon(),
+              const CurrentTemp(),
+              const ExtraInfo(),
+            ],
+          ),
+        ),
+        Positioned(
+          top: MediaQuery.sizeOf(context).height * 0.025,
+          //left: 10,
+          child: IconButton(
+            alignment: Alignment.center,
+            icon: const Icon(
+              Icons.settings,
+              size: 40,
+              color: Colors.black,
+            ),
+            onPressed: () {},
+          ),
+        ),
+      ],
     );
   }
 }
