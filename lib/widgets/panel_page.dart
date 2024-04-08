@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
 import 'package:weatherapp/constants/colors.dart';
 import 'package:weatherapp/model/weather.dart';
-import 'package:weatherapp/service/location_service.dart';
+import 'package:weatherapp/service/current_location_service.dart';
 import 'package:weatherapp/widgets/current_temp.dart';
 import 'package:weatherapp/widgets/datetime_info.dart';
 import 'package:weatherapp/widgets/extra_info.dart';
@@ -27,7 +27,7 @@ class _PanelPageState extends State<PanelPage> {
   @override
   void initState() {
     super.initState();
-    LocationService().requestLocationPermission().then((value) {
+    CurrentLocationService().requestLocationPermission().then((value) {
       if (value) {
         _getCurrentLocation();
       } else {
@@ -38,7 +38,7 @@ class _PanelPageState extends State<PanelPage> {
   }
 
   void _getCurrentLocation() {
-    LocationService().getCurrentLocation().then((value) {
+    CurrentLocationService().getCurrentLocation().then((value) {
       if (value != null) {
         lat = value.latitude;
         lon = value.longitude;
@@ -99,7 +99,7 @@ class _PanelPageState extends State<PanelPage> {
           child: IconButton(
             alignment: Alignment.center,
             icon: const Icon(
-              Icons.settings,
+              Icons.add,
               size: 40,
               color: Colors.black,
             ),

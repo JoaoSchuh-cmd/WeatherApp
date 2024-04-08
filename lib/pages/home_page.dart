@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/widgets/panel_page.dart';
+import 'package:weatherapp/pages/addlocation_page.dart';
+//import 'package:weatherapp/widgets/panel_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +12,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: PanelPage());
+    return const Scaffold(body: AddLocationPage());
   }
 }
