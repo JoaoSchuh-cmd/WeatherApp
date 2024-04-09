@@ -1,15 +1,16 @@
+import 'package:weatherapp/service/locations_service.dart';
+
 class Location {
   int id;
-  final String cityName;
-  bool selected = false;
+  String cityName;
+  bool selected;
   //final double lat;
   //final double lon;
 
   Location({
-    required this.id,
     required this.cityName,
-    required this.selected,
+    this.selected = false,
     //required this.lat,
     //required this.lon,
-  });
+  }) : id = LocationsService().getLastId() + 1;
 }

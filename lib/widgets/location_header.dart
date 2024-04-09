@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/model/weather.dart';
+import 'package:weatherapp/service/weather_provider.dart';
 
 class LocationHeader extends StatelessWidget {
   const LocationHeader({super.key});

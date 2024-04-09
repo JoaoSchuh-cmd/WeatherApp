@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weatherapp/model/location.dart';
 
 class LocationsService extends ChangeNotifier {
-  List<Location>? _locationsList;
-
-  List<Location>? get locationsList => _locationsList;
+  List<Location> _locationsList = [];
 
   static final LocationsService _instance = LocationsService._internal();
 
@@ -14,26 +12,44 @@ class LocationsService extends ChangeNotifier {
 
   LocationsService._internal();
 
-  List<Location>? getLocations() {
+  void setWeather(List<Location> locationsList) {
+    _locationsList = locationsList;
+    notifyListeners();
+  }
+
+  List<Location> getLocations() {
     return _locationsList;
   }
 
-  Location? getLocationById(int id) {
-    return locationsList?.firstWhere((element) => element.id == id);
+  Location getLocationById(int id) {
+    return _locationsList.firstWhere((element) => element.id == id);
+  }
+
+  int getLastId() {
+    int lastId = 0;
+    for (final location in _locationsList) {
+      if (location.id > lastId) {
+        lastId = location.id;
+      }
+    }
+    return lastId;
   }
 
   void addLocation(Location location) {
-    locationsList?.add(location);
+    _locationsList.add(location);
+    notifyListeners();
   }
 
   void updateLocation(int id, Location updatedLocation) {
-    var index = locationsList!.indexWhere((element) => element.id == id);
+    var index = _locationsList.indexWhere((element) => element.id == id);
     if (index != -1) {
-      locationsList?[index] = updatedLocation;
+      _locationsList[index] = updatedLocation;
+      notifyListeners();
     }
   }
 
   void deleteLocation(int id) {
-    locationsList?.removeWhere((element) => element.id == id);
+    _locationsList.removeWhere((element) => element.id == id);
+    notifyListeners();
   }
 }

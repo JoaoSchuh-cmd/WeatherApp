@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
-import 'package:weatherapp/model/weather.dart';
+import 'package:weatherapp/service/weather_provider.dart';
 
 class ExtraInfo extends StatefulWidget {
   const ExtraInfo({super.key});

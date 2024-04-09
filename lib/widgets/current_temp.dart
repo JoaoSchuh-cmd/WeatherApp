@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/model/weather.dart';
+import 'package:weatherapp/service/weather_provider.dart';
 
 class CurrentTemp extends StatelessWidget {
   const CurrentTemp({super.key});
