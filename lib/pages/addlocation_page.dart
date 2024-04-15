@@ -39,11 +39,13 @@ class _AddLocationPageState extends State<AddLocationPage> {
           ),
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(
-                    context,
-                    _locationsList
-                        .firstWhere((element) => element.selected == true)
-                        .cityName);
+                setState(() {
+                  Navigator.pop(
+                      context,
+                      _locationsList
+                          .firstWhere((element) => element.selected == true)
+                          .cityName);
+                });
               },
               icon: const Icon(Icons.arrow_back))),
       body: Container(

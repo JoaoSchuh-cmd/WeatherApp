@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/service/weather_provider.dart';
 
-class CurrentTemp extends StatelessWidget {
+class CurrentTemp extends StatefulWidget {
   const CurrentTemp({super.key});
 
+  @override
+  State<CurrentTemp> createState() => _CurrentTempState();
+}
+
+class _CurrentTempState extends State<CurrentTemp> {
   @override
   Widget build(BuildContext context) {
     return Text(

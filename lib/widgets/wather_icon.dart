@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/service/weather_provider.dart';
 
-class WeatherIcon extends StatelessWidget {
+class WeatherIcon extends StatefulWidget {
   const WeatherIcon({super.key});
 
+  @override
+  State<WeatherIcon> createState() => _WeatherIconState();
+}
+
+class _WeatherIconState extends State<WeatherIcon> {
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -29,27 +29,23 @@ class _PanelPageState extends State<PanelPage> {
   @override
   void initState() {
     super.initState();
+    if (LocationsService().getLocations().isEmpty) {
+      LocationsService()
+          .addLocation(Location(cityName: "Curitiba", selected: false));
+      LocationsService()
+          .addLocation(Location(cityName: "Toledo", selected: true));
+    }
 
     CurrentLocationService().requestLocationPermission().then((value) {
-      setState(() {
-        if (LocationsService().getLocations().isEmpty) {
-          LocationsService()
-              .addLocation(Location(cityName: "Curitiba", selected: false));
-          LocationsService()
-              .addLocation(Location(cityName: "Toledo", selected: true));
-        }
-
-        if (value) {
-          _loadWeatherForLocations();
-        } else {
-          lat = 0.00;
-          lon = 0.00;
-        }
-      });
+      if (value) {
+        _getWeatherByCurrentLocation();
+      } else {
+        _getWeatherByLocationsList();
+      }
     });
   }
 
-  void _loadWeatherForLocations() {
+  void _getWeatherByLocationsList() {
     final locations = LocationsService().getLocations();
     for (final location in locations) {
       if (location.selected) {
@@ -59,11 +55,12 @@ class _PanelPageState extends State<PanelPage> {
     }
   }
 
-  void _getCurrentLocation() {
+  void _getWeatherByCurrentLocation() {
     CurrentLocationService().getCurrentLocation().then((value) {
       if (value != null) {
         lat = value.latitude;
         lon = value.longitude;
+        _getWeather("");
       }
     });
   }
@@ -76,7 +73,6 @@ class _PanelPageState extends State<PanelPage> {
         });
       });
     } else {
-      _getCurrentLocation();
       _wf.currentWeatherByLocation(lat, lon).then((w) {
         setState(() {
           WeatherProvider().setWeather(w);
@@ -106,12 +102,12 @@ class _PanelPageState extends State<PanelPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const LocationHeader(),
+              LocationHeader(),
               SizedBox(height: MediaQuery.sizeOf(context).height * 0.08),
-              const DateTimeInfo(),
-              const WeatherIcon(),
-              const CurrentTemp(),
-              const ExtraInfo(),
+              DateTimeInfo(),
+              WeatherIcon(),
+              CurrentTemp(),
+              ExtraInfo(),
             ],
           ),
         ),
@@ -127,12 +123,12 @@ class _PanelPageState extends State<PanelPage> {
             ),
             onPressed: () async {
               final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AddLocationPage()),
-              );
-              if (result != "") {
-                _loadWeatherForLocations();
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AddLocationPage()));
+
+              if (result != null) {
+                _getWeather(result);
               }
             },
           ),

@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherapp/service/weather_provider.dart';
 
-class DateTimeInfo extends StatelessWidget {
+class DateTimeInfo extends StatefulWidget {
   const DateTimeInfo({super.key});
 
+  @override
+  State<DateTimeInfo> createState() => _DateTimeInfoState();
+}
+
+class _DateTimeInfoState extends State<DateTimeInfo> {
   @override
   Widget build(BuildContext context) {
     DateTime now = WeatherProvider().weather!.date!;
